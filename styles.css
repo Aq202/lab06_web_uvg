@@ -5,6 +5,10 @@ html, body, #root {
     padding: 0;
 }
 
+body{
+    background: radial-gradient(white, rgb(20, 66, 114, 0.9));
+}
+
 .app-container {
     width: 100%;
     min-height: 100%;
@@ -23,6 +27,8 @@ html, body, #root {
     justify-content: space-between;
     width: 100%;
     align-self: flex-start;
+    flex-wrap: wrap;
+    gap: 25px;
 }
 
 .app-container .game-header > div {
@@ -43,11 +49,12 @@ html, body, #root {
     font-size: 17px;
 }
 
-.app-container .game-header span {
+.app-container .game-header  span.count-value {
     font-size: 17px;
 }
 
-.app-container .game-header button{
+
+.app-container .game-header button {
     padding: 7px 15px;
     height: 100%;
     border: none;
@@ -64,13 +71,13 @@ html, body, #root {
     font-weight: bold;
 }
 
-.app-container .game-header button:hover{
- 
+.app-container .game-header button:hover {
+
     background-color: #144172d0;
 
 }
 
-.app-container .game-header button > span{
+.app-container .game-header button>span {
     background-image: url(./img/reload-icon.svg);
     background-size: cover;
     background-repeat: no-repeat;
@@ -80,7 +87,7 @@ html, body, #root {
     display: block;
 }
 
-.game-header .input-number-pairs{
+.game-header .input-number-pairs {
     height: 100%;
     border: 0;
     outline: none;
@@ -194,13 +201,13 @@ html, body, #root {
 
 .winner-modal {
     animation: fadeIn 1s ease;
-    border:none;   
+    border: none;
     box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
     border-radius: 15px;
     padding: 25px;
 }
 
-.winner-modal > .modal-container{
+.winner-modal>.modal-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -214,36 +221,36 @@ html, body, #root {
     }
 }
 
-.winner-modal .modal-title{
+.winner-modal .modal-title {
     font-size: 40px;
-    color:rgb(47, 47, 47);
+    color: rgb(47, 47, 47);
     margin: 0;
     text-align: center;
 }
 
-.winner-modal img{
+.winner-modal img {
     max-width: 100px;
     width: 20vw;
 }
 
-.winner-modal .game-results{
+.winner-modal .game-results {
     display: flex;
     gap: 5px;
     align-items: center;
     gap: 15px;
 }
 
-.winner-modal .game-results h4{
+.winner-modal .game-results h4 {
     font-size: 18px;
     margin: 0;
 }
 
-.winner-modal .action-butons{
+.winner-modal .action-butons {
     display: flex;
     gap: 15px;
 }
 
-.winner-modal  button{
+.winner-modal button {
     padding: 7px 15px;
     border: none;
     border-radius: 5px;
@@ -254,18 +261,29 @@ html, body, #root {
     transition: all .3s ease;
 }
 
-.winner-modal button.restart{
+.winner-modal button.restart {
     background-color: #144272;
 }
 
-.winner-modal button.restart:hover{
+.winner-modal button.restart:hover {
     background-color: #144172d0;
 }
 
-.winner-modal button.close{
+.winner-modal button.close {
     background-color: #A82E08;
 }
 
-.winner-modal button.close:hover{
+.winner-modal button.close:hover {
     background-color: #a82d08cc;
+}
+
+@media screen and (max-width:740px) {
+    .app-container .game-header {
+        justify-content: center;
+    }
+    .app-container .game-header .restart-container {
+        order: 3;
+    }
+
+
 }

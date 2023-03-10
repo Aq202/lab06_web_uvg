@@ -65,10 +65,10 @@ const App = ({ cards }) => {
             <div className="game-header">
                 <div className="attempt-counter">
                     <h4>Movimientos: </h4>
-                    <span>{attemptCount}</span>
+                    <span className="count-value">{attemptCount}</span>
                 </div>
 
-                <div>
+                <div className="restart-container">
                     <input type="number"
                         className="input-number-pairs "
                         placeholder="# parejas"
@@ -79,13 +79,13 @@ const App = ({ cards }) => {
 
                     <button className="restart-game" title="Reiniciar juego" onClick={restartGame}>
                         Reiniciar
-                        <span></span>
+                        <span ></span>
                     </button>
                 </div>
 
                 <div className="card-finded-counter">
                     <h4>Aciertos:</h4>
-                    <span>{`${numberOfHits} de ${numberOfPairs}`}</span>
+                    <span className="count-value">{`${numberOfHits} de ${numberOfPairs}`}</span>
                 </div>
             </div>
             {cardsList && <CardsGrid cardsData={cardsList}
@@ -288,6 +288,57 @@ const cards = [{
     id: 10,
     text: "Parasite",
     imageUrl: "https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_.jpg"
+},
+
+{
+    id:11,
+    text:"Tick Tick Boom",
+    imageUrl:"https://m.media-amazon.com/images/M/MV5BZmMyMmE0M2UtN2E2MC00YzVmLTkwODgtOTVhYjVlOTBhY2RjXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_FMjpg_UX1000_.jpg"
+},
+{
+    id:12,
+    text:"Verano del 85",
+    imageUrl:"https://www.lahiguera.net/cinemania/pelicula/9552/verano_del_85-cartel-9572.jpg"
+},
+{
+    id:13,
+    text:"It",
+    imageUrl:"https://static.posters.cz/image/750/posters/it-georgie-i57743.jpg",
+},
+{
+    id:14,
+    text:"Stranger Things",
+    imageUrl:"https://i.redd.it/8fa9st2ajlv71.jpg"
+},
+{
+    id:15,
+    text:"The Boys",
+    imageUrl:"https://cloudfront-us-east-1.images.arcpublishing.com/infobae/CKKRZQEJAFEJLIP4SCYEUDD5OM.jpg"
+},
+{
+    id:16,
+    text:"Bohemian Rhapsody",
+    imageUrl:"https://pics.filmaffinity.com/Bohemian_Rhapsody-748186150-large.jpg",
+},
+{
+    id:17,
+    text:"WALL-E",
+    imageUrl:"https://lumiere-a.akamaihd.net/v1/images/p_walle_19753_69f7ff00.jpeg"
+},
+{
+    id: 18,
+    text:"Django",
+    imageUrl:"https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F6%2F2012%2F04%2Fdjango-poster_510.jpg&q=60"
+},
+{
+    id:19,
+    text:"Inglorius Bastards",
+    imageUrl:"https://i.etsystatic.com/8315225/r/il/cd182f/504349442/il_570xN.504349442_hk11.jpg"
+},
+{
+    id:20,
+    text:"Little Women",
+    imageUrl:"https://www.ecartelera.com/carteles/14600/14677/008.jpg"
 }
 
 
