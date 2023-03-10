@@ -1,65 +1,12 @@
 
 const { useState, useEffect, useRef } = React
 
-const cards = [{
-    id: 1,
-    text: "Bojack Horseman",
-    imageUrl: "https://m.media-amazon.com/images/M/MV5BYWQwMDNkM2MtODU4OS00OTY3LTgwOTItNjE2Yzc0MzRkMDllXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg"
-},
-{
-    id: 2,
-    text: "The Crown",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/en/6/6c/The_Crown_season_1.jpeg"
-},
-{
-    id: 3,
-    text: "Breaking Bad",
-    imageUrl: "https://m.media-amazon.com/images/M/MV5BN2VjOTkwMjgtYWEyMy00MzNmLTllMjktNDI1ZmRhYTAwYTg1XkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_FMjpg_UX1000_.jpg"
-},
-{
-    id: 4,
-    text: "Better Call Saul",
-    imageUrl: "https://static.displate.com/280x392/displate/2022-11-09/97ac69cbbf1a512142da736fefefc709_97687434d98c212f29f1b90872af504c.jpg"
-},
-{
-    id: 5,
-    text: "Call Me By Your Name",
-    imageUrl: "https://m.media-amazon.com/images/M/MV5BNDk3NTEwNjc0MV5BMl5BanBnXkFtZTgwNzYxNTMwMzI@._V1_.jpg"
-},
-{
-    id: 6,
-    text: "Queen's Gambit",
-    imageUrl: "https://peliomanta.com/wp-content/uploads/2020/10/Peli-o-Manta-Gambito-de-dama-Poster.jpg"
-},
-{
-    id: 7,
-    text: "Mad Men",
-    imageUrl: "https://m.media-amazon.com/images/M/MV5BNTgxNDZlODQtNDcwOC00NWQ5LTljNWMtMDhjY2U5YTUzMTc4XkEyXkFqcGdeQXVyMDA4NzMyOA@@._V1_.jpg"
-},
-{
-    id: 8,
-    text: "Capitán América 2",
-    imageUrl: "https://blogdesuperheroes.es/wp-content/plugins/BdSGallery/BdSGaleria/24359.jpg"
-},
-{
-    id: 9,
-    text: "Rocketman",
-    imageUrl: "https://m.media-amazon.com/images/I/91b0eQjOoVL._AC_SL1500_.jpg"
-},
-{
-    id: 10,
-    text: "Parasite",
-    imageUrl: "https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_.jpg"
-}
 
-
-]
-
-const App = () => {
+const App = ({ cards }) => {
 
     const [refresh, setRefresh] = useState(false);
     const [cardsList, setCardsList] = useState(null);
-    const [numberOfPairs, setNumberOfPairs] = useState(1);
+    const [numberOfPairs, setNumberOfPairs] = useState(2);
     const [attemptCount, setAttemptCount] = useState(0);
     const [numberOfHits, setNumberOfHits] = useState(0);
     const [isWinnerModalVisible, setIsWinnerModalVisible] = useState(false);
@@ -69,12 +16,23 @@ const App = () => {
     useEffect(() => {
         const cardsRandomlySorted = orderArrayRandomly(cards)
         setCardsList(cardsRandomlySorted.slice(0, numberOfPairs))
-        console.log("hola")
+        setAttemptCount(0)
+        setNumberOfHits(0)
     }, [refresh, numberOfPairs]);
 
     useEffect(() => {
         if (numberOfHits === numberOfPairs) showWinnerModal()
     }, [numberOfHits]);
+
+    const handleNumberOfPairsChange = e => {
+        if (isNaN(e.target.value)) return
+
+        const value = parseInt(e.target.value)
+
+        if (value >= 2 && value <= cards.length) setNumberOfPairs(parseInt(value))
+        else if (value < 2) setNumberOfPairs(2)
+        else setNumberOfPairs(cards.length)
+    }
 
     const handleCorrectAttemptsNumberChange = number => {
         setNumberOfHits(number)
@@ -86,8 +44,7 @@ const App = () => {
 
     const restartGame = () => {
         setRefresh(value => !value)
-        setAttemptCount(0)
-        setNumberOfHits(0)
+        
     }
 
     useEffect(() => {
@@ -95,6 +52,7 @@ const App = () => {
     }, [isWinnerModalVisible]);
 
     const showWinnerModal = () => {
+        console.log("WINNING")
         setTimeout(() => setIsWinnerModalVisible(true), 700)
     }
 
@@ -106,8 +64,23 @@ const App = () => {
         <div className="app-container">
             <div className="game-header">
                 <div className="attempt-counter">
-                    <h4>Intentos: </h4>
+                    <h4>Movimientos: </h4>
                     <span>{attemptCount}</span>
+                </div>
+
+                <div>
+                    <input type="number"
+                        className="input-number-pairs "
+                        placeholder="# parejas"
+                        title="Número de parejas"
+                        onChange={handleNumberOfPairsChange}
+                        value={numberOfPairs}
+                        min={2} />
+
+                    <button className="restart-game" title="Reiniciar juego" onClick={restartGame}>
+                        Reiniciar
+                        <span></span>
+                    </button>
                 </div>
 
                 <div className="card-finded-counter">
@@ -121,7 +94,10 @@ const App = () => {
 
             />}
 
-            {isWinnerModalVisible && <WinnerModal restartEvent={restartGame} onClose={onCloseWinnerModal} />}
+            {isWinnerModalVisible && <WinnerModal restartEvent={restartGame} 
+            onClose={onCloseWinnerModal} 
+            attemptCount={attemptCount}
+            />}
         </div>
     )
 }
@@ -227,7 +203,7 @@ const Card = ({ cardIndex, text, imageUrl, flip, selectCard, lockFlip }) => {
 
 }
 
-const WinnerModal = ({ restartEvent, onClose }) => {
+const WinnerModal = ({ restartEvent, onClose, attemptCount }) => {
 
     const modalRef = useRef()
 
@@ -249,7 +225,7 @@ const WinnerModal = ({ restartEvent, onClose }) => {
                 <img src="./img/winner-icon.svg" alt="Trofeo" />
                 <div className="game-results">
                     <h4>Cartas volteadas: </h4>
-                    <span>50</span>
+                    <span>{attemptCount}</span>
                 </div>
                 <div className="action-butons">
                     <button className="restart" onClick={handleRestart}>Volver a jugar</button>
@@ -262,5 +238,60 @@ const WinnerModal = ({ restartEvent, onClose }) => {
 }
 
 
+
+const cards = [{
+    id: 1,
+    text: "Bojack Horseman",
+    imageUrl: "https://m.media-amazon.com/images/M/MV5BYWQwMDNkM2MtODU4OS00OTY3LTgwOTItNjE2Yzc0MzRkMDllXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg"
+},
+{
+    id: 2,
+    text: "The Crown",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/en/6/6c/The_Crown_season_1.jpeg"
+},
+{
+    id: 3,
+    text: "Breaking Bad",
+    imageUrl: "https://m.media-amazon.com/images/M/MV5BN2VjOTkwMjgtYWEyMy00MzNmLTllMjktNDI1ZmRhYTAwYTg1XkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_FMjpg_UX1000_.jpg"
+},
+{
+    id: 4,
+    text: "Better Call Saul",
+    imageUrl: "https://static.displate.com/280x392/displate/2022-11-09/97ac69cbbf1a512142da736fefefc709_97687434d98c212f29f1b90872af504c.jpg"
+},
+{
+    id: 5,
+    text: "Call Me By Your Name",
+    imageUrl: "https://m.media-amazon.com/images/M/MV5BNDk3NTEwNjc0MV5BMl5BanBnXkFtZTgwNzYxNTMwMzI@._V1_.jpg"
+},
+{
+    id: 6,
+    text: "Queen's Gambit",
+    imageUrl: "https://peliomanta.com/wp-content/uploads/2020/10/Peli-o-Manta-Gambito-de-dama-Poster.jpg"
+},
+{
+    id: 7,
+    text: "Mad Men",
+    imageUrl: "https://m.media-amazon.com/images/M/MV5BNTgxNDZlODQtNDcwOC00NWQ5LTljNWMtMDhjY2U5YTUzMTc4XkEyXkFqcGdeQXVyMDA4NzMyOA@@._V1_.jpg"
+},
+{
+    id: 8,
+    text: "Capitán América 2",
+    imageUrl: "https://i0.wp.com/www.lacasadeel.net/wp-content/uploads/2014/03/captain-america-2-nuevo-poster.jpg"
+},
+{
+    id: 9,
+    text: "Rocketman",
+    imageUrl: "https://m.media-amazon.com/images/I/91b0eQjOoVL._AC_SL1500_.jpg"
+},
+{
+    id: 10,
+    text: "Parasite",
+    imageUrl: "https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_.jpg"
+}
+
+
+]
+
 const root = ReactDOM.createRoot(document.getElementById("root"))
-root.render(<App />)
+root.render(<App cards={cards}/>)
